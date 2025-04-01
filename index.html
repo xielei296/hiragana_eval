@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日语假名训练系统</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>日语假名训练系统</h1>
+        
+        <div class="kana-selection-section">
+            <div class="selection-controls">
+                <div class="selection-main-controls">
+                    <button id="show-hide-kana">显示/隐藏假名列表</button>
+                    <button id="select-all">全选</button>
+                    <button id="deselect-all">取消全选</button>
+                </div>
+                <div class="timer-selection">
+                    <span>选择练习时间：</span>
+                    <button class="timer-btn active" data-time="180">3分钟</button>
+                    <button class="timer-btn" data-time="300">5分钟</button>
+                    <button class="timer-btn" data-time="600">10分钟</button>
+                </div>
+                <div class="input-mode-selection">
+                    <span>输入模式：</span>
+                    <label>
+                        <input type="checkbox" id="realtime-check" checked>
+                        实时检查（输入时自动判断）
+                    </label>
+                </div>
+                <button id="start-practice" class="main-button">开始训练</button>
+            </div>
+            
+            <h2>选择训练内容</h2>
+            
+            <div class="kana-content" id="kana-content">
+                <div class="kana-section">
+                    <div class="section-header">
+                        <h3>平假名</h3>
+                    </div>
+                    <div class="kana-group" id="hiragana-group">
+                        <!-- 平假名将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                
+                <div class="kana-section">
+                    <div class="section-header">
+                        <h3>片假名</h3>
+                    </div>
+                    <div class="kana-group" id="katakana-group">
+                        <!-- 片假名将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="practice-section" style="display: none;">
+            <div class="practice-header">
+                <div class="practice-timer">
+                    <p><span id="timer-label">剩余时间</span>: <span id="timer">03:00</span></p>
+                </div>
+                <div class="current-speed">
+                    <p>当前速度: <span id="current-speed">0</span> 个/分钟</p>
+                </div>
+            </div>
+            
+            <div class="practice-display">
+                <div class="current-kana">あ</div>
+                <div class="feedback" style="display: none;">
+                    <div class="feedback-text">正确答案: <span class="correct-answer"></span></div>
+                </div>
+                <div class="input-area">
+                    <input type="text" id="romaji-input" placeholder="请输入罗马音..." autocomplete="off">
+                    <button id="skip-kana" class="skip-button">跳过</button>
+                </div>
+            </div>
+            
+            <div class="practice-stats">
+                <div class="stats-display">
+                    <div class="stats-basic">
+                        <p>已练习假名: <span id="completed-count">0</span> 个</p>
+                        <p>正确识别: <span id="correct-count">0</span> 个</p>
+                        <p>错误识别: <span id="wrong-count">0</span> 个</p>
+                    </div>
+                    <div class="stats-advanced">
+                        <p>成绩评估: </p>
+                        <pre id="score" class="score-text" style="display: none;">练习结束后显示</pre>
+                        <p class="weakness-title" style="margin-top: 1rem; display: none;">薄弱环节分析: </p>
+                        <pre id="weakness-report" class="weakness-report" style="display: none;">练习结束后显示</pre>
+                    </div>
+                </div>
+                <div class="stats-controls">
+                    <button id="reset-stats">重新开始</button>
+                    <button id="back-to-selection">返回选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 
