@@ -697,17 +697,23 @@ function handleInput(event) {
     if (!currentKana) return;
     
     const userInput = event.target.value.trim().toLowerCase();
-    const correctRomaji = currentKana.romaji;
+    let correctRomaji = [currentKana.romaji];
     
-    console.log(`实时检查 - 用户输入: "${userInput}", 正确答案: "${correctRomaji}"`);
+    // 添加额外的正确答案
+    if (currentKana.romaji === 'wo') {
+        correctRomaji.push('o');
+    }
+    if (currentKana.romaji === 'fu') {
+        correctRomaji.push('hu');
+    }
+    
+    console.log(`实时检查 - 用户输入: "${userInput}", 正确答案: ${correctRomaji.join(', ')}`);
     
     // 如果输入为空，不做任何处理
     if (userInput.length === 0) return;
     
-    // 特殊处理：对于wo，o也是正确答案；对于fu，hu也是正确答案
-    const isCorrect = userInput === correctRomaji || 
-                     (correctRomaji === 'wo' && userInput === 'o') ||
-                     (correctRomaji === 'fu' && userInput === 'hu');
+    // 检查是否匹配任何正确答案
+    const isCorrect = correctRomaji.some(answer => userInput === answer);
     
     if (isCorrect) {
         console.log("输入正确，进入下一题");
@@ -726,7 +732,8 @@ function handleInput(event) {
     }
     
     // 检查是否输入了错误字符
-    if (!correctRomaji.startsWith(userInput)) {
+    const isPartialMatch = correctRomaji.some(answer => answer.startsWith(userInput));
+    if (!isPartialMatch) {
         console.log("输入错误字符");
         
         // 记录错误
@@ -738,7 +745,7 @@ function handleInput(event) {
         updateStats();
         
         // 显示正确答案
-        showCorrectAnswer(correctRomaji);
+        showCorrectAnswer(correctRomaji[0]);
         
         // 清空输入框并聚焦
         romajiInput.value = '';
@@ -747,7 +754,7 @@ function handleInput(event) {
     }
     
     // 检查是否输入完整但不正确
-    if (userInput.length >= correctRomaji.length && userInput !== correctRomaji) {
+    if (userInput.length >= Math.min(...correctRomaji.map(a => a.length)) && !isCorrect) {
         console.log("输入完整但不正确");
         
         // 记录错误
@@ -759,7 +766,7 @@ function handleInput(event) {
         updateStats();
         
         // 显示正确答案
-        showCorrectAnswer(correctRomaji);
+        showCorrectAnswer(correctRomaji[0]);
         
         // 清空输入框并聚焦
         romajiInput.value = '';
